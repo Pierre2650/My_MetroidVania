@@ -52,6 +52,8 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    
+
     //Methodes a implimenter par les enemies
     public abstract void Dies();
     protected abstract void Mouvement(char Action);

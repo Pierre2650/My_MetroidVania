@@ -7,41 +7,55 @@ using Debug = UnityEngine.Debug;
 
 public class Player_scrpt : MonoBehaviour
 {
-    //to init
+    
+    [Header("To Init")]
     private Rigidbody2D myRb;
     private Animator myAni;
     public BoxCollider2D myBxC;
     private LayerMask theGroundMask;
-
-    //parametrage
-    public float speed = 2.0f;
-    public float airSpeed = 1.0f;
-    public float gravityMultp = 5.0f;
-    private float fallGravity;
-
     private AnimationClip[] Clips;
     private float attackDur;
 
+    [Header("Parametrage")]
+    public float speed = 60.0f;
+    public float airSpeed = 1.0f;
+    public float JumpForce = 175.0f;
+    public float jumpTime = 0.15f;
+    public float fallGravity = 13.0f;
+    public float dashForce = 15.0f;
+    public float health = 99f;
+
+    [Header("Mouvement Conditions")]
+    private float H_Mouvement = 0.0f;
+    public bool gCheck = false;
+    private bool dash = false;
+    public bool jump;
+
+    [Header("Attack Management")]
+    public bool actAtk = false;
+
+    [Header("Jump management")]
+    private float countJTime = 0;
+    private bool isJumping;
+    public float onAirGScale = 5f;
     private int nbjumps = 2;
 
-        //direction to push back
+    [Header("Dash Management")]
+    private float countDTime = 0f;
+    public float dashTime = 0.4f;
+
+
+    
+    [Header("Actions")]
+    public bool isHit = false;
+    private bool isAttacking =false;
+    private bool isDashing = false;
+    //Direction to push back
     private int pushBackDir = 0;
 
-    //mouvement conditions
-    private float H_Mouvement = 0.0f;
-    public bool jump;
-    public bool gCheck = false;
-
-    //actions
-
-    public bool isHit = false;
-    public bool isAttacking =false;
-
-    //Coldowns
+    
+    [Header("Coldowns")]
     private float timer1 = 0.0f;
-
-    //actions
-
 
 
 
@@ -52,7 +66,6 @@ public class Player_scrpt : MonoBehaviour
         myAni = GetComponent<Animator>();
         //myBxC = GetComponent<BoxCollider2D>();
         theGroundMask = LayerMask.GetMask("Ground");
-        fallGravity = gravityMultp + 3;
         getAttackDur();
         
     }
@@ -61,37 +74,25 @@ public class Player_scrpt : MonoBehaviour
     void Update()
     {
 
-        
-
         animationManager();
 
-
-        H_Mouvement = Input.GetAxisRaw("Horizontal");
-
-
+            //Reload scene
         if (Input.GetKeyDown(KeyCode.P))
         {
             SceneManager.LoadScene("SampleScene");
         }
 
+            //End game
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
+            //Horizontal Mouvement
+        H_Mouvement = Input.GetAxisRaw("Horizontal");
 
-
-
-        if (Input.GetKeyDown(KeyCode.UpArrow)){ 
-            jump = true;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Z) && !isAttacking && !isHit)
+            //Attack
+        if (Input.GetKeyDown(KeyCode.Z) && !isAttacking && !isHit && !isDashing)
         {
-            if (!myAni.GetBool("test"))
-            {
-                myAni.SetBool("test", true);
-            }
-
 
             myAni.SetTrigger("Attack");
             isAttacking = true;
@@ -103,12 +104,52 @@ public class Player_scrpt : MonoBehaviour
             countdowns("atkCldwn");
         }
 
+            //Jump Mouvement
+        jump = Input.GetKey(KeyCode.UpArrow);
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            nbjumps--;
+            myAni.SetBool("onGround", true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.UpArrow))
+        {
+            isJumping = false;
+
+            if (nbjumps != 0) {
+                
+                countJTime = 0;
+            }
+
+        }
+
+        //Dash
+        if (Input.GetKeyDown(KeyCode.Space) && !isDashing)
+        {
+            dash = true;
+            isDashing = true;
+            myBxC.excludeLayers = LayerMask.GetMask("Enemy");
+
+            if (gCheck)
+            {
+                myAni.SetTrigger("Dash");
+            }
+            else
+            {
+                myAni.SetTrigger("airDash");
+            }
+
+        }
+
+        //print test
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            //Debug.Log();
+        }
 
 
 
-        FallSpeed();
-
-        yVelocityTreshold();
 
     }
 
@@ -118,11 +159,9 @@ public class Player_scrpt : MonoBehaviour
 
         foreach(AnimationClip clip in Clips)
         {
-            if(clip.name == "Attack!")
+            if(clip.name == "AttackF")
             {   
                 attackDur = clip.length;
-                //Debug.Log("attack duration:");
-                //Debug.Log(attackDur);
                 break;
             }
         }
@@ -132,27 +171,23 @@ public class Player_scrpt : MonoBehaviour
     private void animationManager()
     {
 
-        if (!isHit && !isAttacking)
+        if (!isHit && !isAttacking && !isDashing)
         {
-            myAni.SetBool("test", gCheck);
+            myAni.SetBool("onGround", gCheck);
 
         }
         else
         {
-            myAni.SetBool("test", true);
+            myAni.SetBool("onGround", true);
         }
 
 
         myAni.SetBool("Hurt", isHit);
 
-
         myAni.SetFloat("Run", Mathf.Abs(myRb.velocity.x));
-
-
-
     }
 
-    private void yVelocityTreshold()
+    private void xyVelocityTreshold()
     {
         if(myRb.velocity.y > 30)
         {
@@ -162,7 +197,7 @@ public class Player_scrpt : MonoBehaviour
 
         if (myRb.velocity.x > 30)
         {
-            myRb.velocity = Vector2.zero;
+            myRb.velocity = new Vector2(0, myRb.velocity.y);
         }
     }
 
@@ -173,38 +208,48 @@ public class Player_scrpt : MonoBehaviour
             //Debug.Log("Gravity changed, objt heavier");
             myRb.gravityScale = fallGravity;
         }
+
+        if (myRb.velocity.y < -20)
+        {
+            //Speed limiter
+            myRb.velocity = new Vector2(myRb.velocity.x, -20);
+        }
     }
+
+    
 
     private void FixedUpdate()
     {
 
-        if(myRb.velocity.x > 20)
-        {
-            myRb.velocity = Vector2.zero;
-        }
+        xyVelocityTreshold();
+        FallSpeed();
 
         gCheck = groundChck();
-
-
         if (gCheck)
         {
             myRb.gravityScale = 1;
 
+            countJTime = 0;
             nbjumps = 2;
 
         }
 
-
-        if (!isHit) { 
+        if (!isHit && !isDashing) { 
 
             mouvChoice();
         }
-        else
+        
+        if(isHit)
         {
             Hitted(pushBackDir);
         }
 
- 
+        if (isDashing)
+        {
+
+            goDash();
+            
+        }
 
     }
 
@@ -213,11 +258,6 @@ public class Player_scrpt : MonoBehaviour
 
         if (H_Mouvement > 0.1)
         {
-
-            if(myRb.velocity.x < 0)
-            {
-                myRb.velocity
-            }
 
             goRight();
 
@@ -232,16 +272,25 @@ public class Player_scrpt : MonoBehaviour
         if (H_Mouvement < 0.1 && H_Mouvement > -0.1)
         {
 
-            stopM();
+            if (gCheck) {
+
+            //myRb.velocity = new Vector2(0, myRb.velocity.y);
+            myRb.velocity = new Vector2(0, 0);
+
+            }
 
         }
+
 
         if (jump)
         {
 
-            gojump();
+            countJTime += Time.deltaTime;
 
-            jump = false;
+            if (countJTime < jumpTime)
+            {
+                gojump();
+            }
         }
 
     }
@@ -279,10 +328,14 @@ public class Player_scrpt : MonoBehaviour
                 if (timer1 > attackDur - 0.04f)
                 {
                     isAttacking = false;
+                    actAtk = false;
                     timer1 = 0.0f;
 
                     Debug.Log("Attack cooldown ends");
 
+                }else if(timer1 > 0.1 && timer1 <= attackDur - 0.04f)
+                {
+                    actAtk = true;
                 }
 
                 break;
@@ -330,15 +383,6 @@ public class Player_scrpt : MonoBehaviour
     
     }
 
-    private void stopM()
-    {
-       
-
-        if (gCheck) {
-            //myRb.velocity = new Vector2(0, myRb.velocity.y);
-            myRb.velocity = new Vector2(0, 0);
-        }
-    }
 
 
 
@@ -348,6 +392,12 @@ public class Player_scrpt : MonoBehaviour
 
         if (/*Grouded*/ gCheck)
         {
+            if (myRb.velocity.x < 0)
+            {
+                myRb.velocity = Vector2.zero;
+            }
+
+
             if (myRb.velocity.x < 10f)
             {
                 myRb.AddForce(Vector2.right * speed);
@@ -361,8 +411,8 @@ public class Player_scrpt : MonoBehaviour
         }
         else{
             //on air
-            // myRb.AddForce(Vector2.right * this.airSpeed);
-
+       
+            
             if (myRb.velocity.x < 12f && myRb.velocity.x >= 0)
             {
                 myRb.AddForce(Vector2.right * (this.airSpeed));
@@ -384,6 +434,12 @@ public class Player_scrpt : MonoBehaviour
 
         if (/*Grouded */ gCheck) {
 
+            if (myRb.velocity.x > 0)
+            {
+                myRb.velocity = Vector2.zero;
+            }
+
+
             if (myRb.velocity.x > (-10f))
             {
                 myRb.AddForce(Vector2.right * (-speed));
@@ -396,11 +452,7 @@ public class Player_scrpt : MonoBehaviour
         }
         else
         {
-            /*if(myRb.velocity.x > 0)
-            {
-                myRb.velocity = new Vector2(-myRb.velocity.x, myRb.velocity.y); 
-            }*/
-
+            //on air
             if(myRb.velocity.x > -12f && myRb.velocity.x <= 0)
             {
                 myRb.AddForce(Vector2.right * (-this.airSpeed));
@@ -414,39 +466,68 @@ public class Player_scrpt : MonoBehaviour
 
     }
 
+   
+
     private void gojump()
     {
-        //myAni.SetBool("Jump", true);
-        if (/*Grouded*/ gCheck || nbjumps !=0)
-        {
 
-            //myAni.SetTrigger("Jumping");
+        if (/*Grouded*/ gCheck || nbjumps != 0) {
 
-            //myAni.SetBool("test", true);
-            
-            myRb.gravityScale = 5;
+            myRb.gravityScale = onAirGScale;
+   
 
+            if (myRb.velocity.y < 15f)
+            {
+                myRb.AddForce(Vector2.up * JumpForce);
+            }
+            else
+            {
+                myRb.velocity = new Vector2(myRb.velocity.x, 15f);
+            }
 
-
-
-            myRb.velocity = new Vector2(myRb.velocity.x, 0);
-
-            myRb.AddForce(Vector2.up * 20, ForceMode2D.Impulse);
-           
-            nbjumps--;
-            
         }
+
+    }
+
+
+    private void goDash()
+    {
+        countDTime += Time.deltaTime;
+
+        if (countDTime < dashTime)
+        {
+            if (dash)
+            {
+                Vector2 dashDir;
+                if (transform.rotation.y == 0)
+                {
+                    dashDir  = new Vector2(1, 0);
+                }
+                else
+                {
+                    dashDir = new Vector2(-1, 0);
+                }
+
+                myRb.velocity = new Vector2(0, myRb.velocity.y);
+                myRb.AddForce(dashDir * dashForce, ForceMode2D.Impulse);
+
+                dash = false;
+            }
+        }
+        else
+        {
+            myBxC.excludeLayers = LayerMask.GetMask("Nothing");
+            isDashing = false;
+            countDTime = 0;
+        }
+
     }
 
 
     private bool groundChck()
     {
 
-        
-
         RaycastHit2D GrounfChckBoxCast = Physics2D.BoxCast(myBxC.bounds.center - new Vector3(0, 0.6f), myBxC.bounds.size - new Vector3(0, 1f), 0f, Vector2.down, 0f, theGroundMask);
-
-      
 
         return GrounfChckBoxCast.collider;
     }
@@ -466,8 +547,9 @@ public class Player_scrpt : MonoBehaviour
         {
 
             isHit = true;
+            myRb.velocity = Vector2.zero;
 
-            myBxC.excludeLayers = LayerMask.GetMask("Enemies");
+            myBxC.excludeLayers = LayerMask.GetMask("Enemy");
 
             pushBackDir = choseDir(collision.contacts[0].point.x);
 
@@ -480,6 +562,7 @@ public class Player_scrpt : MonoBehaviour
 
     private int choseDir(float x_contactPt)
     {
+        //Choose direction to be pushed towards
         if (x_contactPt - transform.position.x < 0)
         {
             return  1;

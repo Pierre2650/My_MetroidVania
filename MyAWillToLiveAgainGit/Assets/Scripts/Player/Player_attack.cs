@@ -6,30 +6,36 @@ public class Player_attack : MonoBehaviour
 {
     public Player_scrpt PlMouvScript;
     private CircleCollider2D myCC;
+    private BoxCollider2D myBX;
 
     private bool check = false;
     
     // Start is called before the first frame update
     void Start()
     {
-        //gameObject.SetActive(false);
-        myCC = GetComponent<CircleCollider2D>();
-        myCC.enabled = false;
+       
+        //myCC = GetComponent<CircleCollider2D>();
+        //myCC.enabled = false;
+        myBX = GetComponent<BoxCollider2D>();
+        myBX.enabled = false;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        check = PlMouvScript.isAttacking;
+        check = PlMouvScript.actAtk;
 
 
         if (check)
         {
-            myCC.enabled = true;
+            //myCC.enabled = true;
+            myBX.enabled = true;
         }
         else
         {
-           myCC.enabled=false;
+           //myCC.enabled=false;
+           myBX.enabled=false;
         }
         
     }

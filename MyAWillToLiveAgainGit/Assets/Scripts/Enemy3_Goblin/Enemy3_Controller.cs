@@ -96,7 +96,7 @@ void Start()
                 
             }
 
-            if (clip.name == "Enm3_attack")
+            if (clip.name == "Enm3_Attack")
             {
                 attackDur = clip.length;
 

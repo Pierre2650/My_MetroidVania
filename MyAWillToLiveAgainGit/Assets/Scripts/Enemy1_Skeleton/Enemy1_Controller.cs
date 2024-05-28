@@ -244,11 +244,12 @@ public class Enemy1IA_scrpt : Enemy
     {
         //methode qui prend en compte la duration de l'animation de l'attaque pour synchroniser avec l'activation de attack Boxes
         waitTimer += Time.deltaTime;
-        if (waitTimer > attackDur - 0.5 && waitTimer < (attackDur - 0.2))
+
+        if (waitTimer > 0.3 && waitTimer <= (attackDur - 0.3))
         {
             isAttacking = true;
         }
-        else if (waitTimer > (attackDur - 0.2))
+        else if (waitTimer > (attackDur - 0.3))
         {
             isAttacking = false;
             waitTimer = 0.0f;
