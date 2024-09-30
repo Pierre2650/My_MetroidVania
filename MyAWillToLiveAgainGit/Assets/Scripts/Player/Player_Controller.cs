@@ -15,6 +15,8 @@ public class Player_scrpt : MonoBehaviour
     private LayerMask theGroundMask;
     private AnimationClip[] Clips;
     private float attackDur;
+    public Pl_GUI_Manager guiManager;
+    private Player_Equipement equipement;
 
     [Header("Parametrage")]
     public float speed = 60.0f;
@@ -23,7 +25,7 @@ public class Player_scrpt : MonoBehaviour
     public float jumpTime = 0.15f;
     public float fallGravity = 13.0f;
     public float dashForce = 15.0f;
-    public float health = 99f;
+    public int health ;
 
     [Header("Mouvement Conditions")]
     private float H_Mouvement = 0.0f;
@@ -36,7 +38,7 @@ public class Player_scrpt : MonoBehaviour
 
     [Header("Jump management")]
     private float countJTime = 0;
-    private bool isJumping;
+   
     public float onAirGScale = 5f;
     private int nbjumps = 2;
 
@@ -50,12 +52,15 @@ public class Player_scrpt : MonoBehaviour
     public bool isHit = false;
     private bool isAttacking =false;
     private bool isDashing = false;
+    private bool isDead = false;
     //Direction to push back
     private int pushBackDir = 0;
 
     
     [Header("Coldowns")]
     private float timer1 = 0.0f;
+
+    public float currentDir = 0;
 
 
 
@@ -64,8 +69,9 @@ public class Player_scrpt : MonoBehaviour
     {
         myRb = GetComponent<Rigidbody2D>();
         myAni = GetComponent<Animator>();
-        //myBxC = GetComponent<BoxCollider2D>();
+        myBxC = GetComponent<BoxCollider2D>();
         theGroundMask = LayerMask.GetMask("Ground");
+        equipement = GetComponent<Player_Equipement>();
         getAttackDur();
         
     }
@@ -76,28 +82,48 @@ public class Player_scrpt : MonoBehaviour
 
         animationManager();
 
+        currentDir = transform.rotation.y;
+
             //Reload scene
         if (Input.GetKeyDown(KeyCode.P))
-        {
-            SceneManager.LoadScene("SampleScene");
-        }
+        { SceneManager.LoadScene("SampleScene");}
 
             //End game
         if (Input.GetKeyDown(KeyCode.Escape))
+        {   Application.Quit();}
+
+
+        //Horizontal Mouvement
+
+        if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
         {
-            Application.Quit();
+            H_Mouvement = 1;
+
         }
-            //Horizontal Mouvement
-        H_Mouvement = Input.GetAxisRaw("Horizontal");
-
-            //Attack
-        if (Input.GetKeyDown(KeyCode.Z) && !isAttacking && !isHit && !isDashing)
+        else if (Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
         {
+            H_Mouvement = -1;
 
-            myAni.SetTrigger("Attack");
-            isAttacking = true;
-            myRb.velocity = new Vector2 (0, myRb.velocity.y);
-            countdowns("atkCldwn");
+        }
+        else { H_Mouvement = 0; }
+
+
+
+
+        //Attack
+        if (Input.GetKeyDown(KeyCode.Z) && !isAttacking && !isHit && !isDashing && !isDead)
+        {
+            if (equipement.wSlots[0] == 'B' && equipement.currentArr == 0) {
+                guiManager.noArrow();
+
+            }
+            else
+            {
+                myAni.SetTrigger("Attack");
+                isAttacking = true;
+                myRb.velocity = new Vector2(0, myRb.velocity.y);
+                countdowns("atkCldwn");
+            }
         }
         else if (isAttacking) 
         {
@@ -115,7 +141,7 @@ public class Player_scrpt : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
-            isJumping = false;
+           
 
             if (nbjumps != 0) {
                 
@@ -125,11 +151,12 @@ public class Player_scrpt : MonoBehaviour
         }
 
         //Dash
-        if (Input.GetKeyDown(KeyCode.Space) && !isDashing)
+        if (Input.GetKeyDown(KeyCode.Space) && !isDashing && !isHit && guiManager.dashElapsed == 0)
         {
             dash = true;
             isDashing = true;
             myBxC.excludeLayers = LayerMask.GetMask("Enemy");
+            guiManager.dashFB();
 
             if (gCheck)
             {
@@ -142,6 +169,17 @@ public class Player_scrpt : MonoBehaviour
 
         }
 
+        //Use item
+        if (Input.GetKeyDown(KeyCode.C) && !isHit){
+
+            //guiManager.useItem();
+
+        }
+
+
+
+
+
         //print test
         if (Input.GetKeyDown(KeyCode.L))
         {
@@ -149,6 +187,7 @@ public class Player_scrpt : MonoBehaviour
         }
 
 
+        
 
 
     }
@@ -171,7 +210,8 @@ public class Player_scrpt : MonoBehaviour
     private void animationManager()
     {
 
-        if (!isHit && !isAttacking && !isDashing)
+        
+        if (!isHit && !isAttacking && !isDashing && !isDead)
         {
             myAni.SetBool("onGround", gCheck);
 
@@ -209,10 +249,10 @@ public class Player_scrpt : MonoBehaviour
             myRb.gravityScale = fallGravity;
         }
 
-        if (myRb.velocity.y < -20)
+        if (myRb.velocity.y < -19)
         {
             //Speed limiter
-            myRb.velocity = new Vector2(myRb.velocity.x, -20);
+            myRb.velocity = new Vector2(myRb.velocity.x, -19);
         }
     }
 
@@ -225,6 +265,7 @@ public class Player_scrpt : MonoBehaviour
         FallSpeed();
 
         gCheck = groundChck();
+       
         if (gCheck)
         {
             myRb.gravityScale = 1;
@@ -234,7 +275,7 @@ public class Player_scrpt : MonoBehaviour
 
         }
 
-        if (!isHit && !isDashing) { 
+        if (!isHit && !isDashing && !isDead) { 
 
             mouvChoice();
         }
@@ -244,7 +285,7 @@ public class Player_scrpt : MonoBehaviour
             Hitted(pushBackDir);
         }
 
-        if (isDashing)
+        if (isDashing && !isDead)
         {
 
             goDash();
@@ -348,6 +389,8 @@ public class Player_scrpt : MonoBehaviour
 
     private void Hitted(int x_sign)
     {
+        //Need to revisit to avoid bugs
+
         Vector2 pushedBack;
 
 
@@ -471,7 +514,7 @@ public class Player_scrpt : MonoBehaviour
     private void gojump()
     {
 
-        if (/*Grouded*/ gCheck || nbjumps != 0) {
+        if (/*Grouded*/ gCheck || nbjumps > 0) {
 
             myRb.gravityScale = onAirGScale;
    
@@ -524,6 +567,17 @@ public class Player_scrpt : MonoBehaviour
     }
 
 
+    private void Dies()
+    {
+        myAni.SetTrigger("Dead");
+    
+        myBxC.excludeLayers = LayerMask.GetMask("Enemy");
+
+        isDead = true;
+        guiManager.gameOverScreen();
+    }
+
+
     private bool groundChck()
     {
 
@@ -540,20 +594,53 @@ public class Player_scrpt : MonoBehaviour
         Gizmos.DrawWireCube(myBxC.bounds.center - new Vector3(0, 0.6f), myBxC.bounds.size - new Vector3(0f, 1f));
     }
 
+
+    public bool heal(int uses)
+    {
+        if (health < 3 && !isHit )
+        {
+            guiManager.useItem(uses);
+            guiManager.callhealCoroutine(health);
+            health++;
+            return true;
+
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
         if (myBxC.IsTouching(collision.collider) && collision.gameObject.layer == 8 && !isHit)
         {
-
-            isHit = true;
             myRb.velocity = Vector2.zero;
 
-            myBxC.excludeLayers = LayerMask.GetMask("Enemy");
+            health--;
+            guiManager.callDmgCoroutine(health);
+            if(health <= 0)
+            {
 
-            pushBackDir = choseDir(collision.contacts[0].point.x);
+                Dies();
 
-            Debug.Log(collision.contacts[0].point);
+
+            }
+            else
+            {
+                isHit = true;
+
+
+                myBxC.excludeLayers = LayerMask.GetMask("Enemy");
+
+                pushBackDir = choseDir(collision.contacts[0].point.x);
+
+                Debug.Log(collision.contacts[0].point);
+            }
+            
+            
         }
 
 

@@ -7,11 +7,15 @@ TagManager:
   - Enm1
   - chAtk
   - Ground
+  - Currency
+  - Equipement
+  - Usable
+  - Arrow
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Character
   - Water
   - UI
   - Ground

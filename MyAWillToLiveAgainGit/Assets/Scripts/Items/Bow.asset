@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d139c5e1ab7db7419ad147bc07aa164, type: 3}
+  m_Name: Bow
+  m_EditorClassIdentifier: 
+  damage: 1
+  nameId: 66
+  sprite: {fileID: 21300000, guid: c7a92b47d7c21634fa85b39e11dc4303, type: 3}
+  attackClip: {fileID: 7400000, guid: fb7ea3f82722240459a69a560a9ee715, type: 2}
+  typeOfCollider: 78
+  cSize: {x: 0, y: 0}
+  cRadius: 0
+  cOffset: {x: 0, y: 0}
