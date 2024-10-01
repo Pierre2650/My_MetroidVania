@@ -219,9 +219,6 @@ public class Player_Equipement : MonoBehaviour
                     myAni.runtimeAnimatorController = temp;
 
                 }
-                //Skins["AttackF"] = findAnimation("AttackF");
-
-
 
 
                 break;
@@ -243,6 +240,7 @@ public class Player_Equipement : MonoBehaviour
                 }
 
                 break;
+
             case 'B':
 
                 if (myAni.runtimeAnimatorController.name == "Player_anim_Sw")
@@ -338,39 +336,32 @@ public class Player_Equipement : MonoBehaviour
 
         for (int i = 0; i < 2; i++)
         {
-            if (wSlots[i] == 'F'){
+            if (wSlots[i] == 'F')
+            {
 
-             
+                wSlots[i] = weaponId;
+                inventorySize++;
 
 
-                if (i == 0) {
+                if (i == 0)
+                {
                     guiManager.equipementSlot1(weaponSprite);
-                    selectWeapon();
+                    selectWeapon(weaponId);
+                    changeSkins(weaponId);
                 }
 
-                if (i == 1) {
+                if (i == 1)
+                {
 
                     if (wSlots[0] != 'S')
                     {
-<<<<<<< Updated upstream
-                        //changeSkins(weaponId);
-=======
                         changeSkins(weaponId);
-
->>>>>>> Stashed changes
                     }
                     guiManager.equipementSlot2(weaponSprite);
                 }
 
-                wSlots[i] = weaponId;
-                inventorySize++;
-                changeSkins(weaponId);
-
-                selectWeapon(weaponId);
 
                 break;
-
-          
 
             }
 
@@ -460,11 +451,6 @@ public class Player_Equipement : MonoBehaviour
                         Weapon_Description WD = collision.GetComponent<Weapon_Description>();
 
                         createWeapon(WD);
-<<<<<<< Updated upstream
-
-                        
-=======
->>>>>>> Stashed changes
                     }
 
                     action = false;

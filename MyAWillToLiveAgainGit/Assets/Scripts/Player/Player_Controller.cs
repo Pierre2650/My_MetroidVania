@@ -111,7 +111,7 @@ public class Player_scrpt : MonoBehaviour
 
 
         //Attack
-        if (Input.GetKeyDown(KeyCode.Z) && !isAttacking && !isHit && !isDashing && !isDead)
+        if (Input.GetKeyDown(KeyCode.Z) && !isAttacking && !isHit && !isDashing && !isDead && !guiManager.switchWeaponOnCD)
         {
             if (equipement.wSlots[0] == 'B' && equipement.currentArr == 0) {
                 guiManager.noArrow();
@@ -623,7 +623,7 @@ public class Player_scrpt : MonoBehaviour
             guiManager.callDmgCoroutine(health);
             if(health <= 0)
             {
-
+                health = 0;
                 Dies();
 
 

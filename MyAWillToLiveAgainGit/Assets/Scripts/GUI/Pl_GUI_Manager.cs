@@ -429,8 +429,8 @@ public class Pl_GUI_Manager : MonoBehaviour
 
         float percentageDur = 0;
 
-        Vector2 start = new Vector2(38,38);
-        Vector2 end = new Vector2(55, 55);
+        Vector2 start = new Vector2(114, 114);
+        Vector2 end = new Vector2(165, 165);
 
 
         while (useElapsedT < useDuration/2)
