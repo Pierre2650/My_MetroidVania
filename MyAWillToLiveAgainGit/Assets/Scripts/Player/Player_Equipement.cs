@@ -124,7 +124,7 @@ public class Player_Equipement : MonoBehaviour
             char temp = wSlots[0];
             wSlots[0] = wSlots[1];
             wSlots[1] = temp;
-            selectWeapon();
+            selectWeapon(wSlots[0]);
             guiManager.callSwitchEqCoroutine();
 
         }
@@ -197,11 +197,11 @@ public class Player_Equipement : MonoBehaviour
 
 
 
-    private void selectWeapon()
+    private void selectWeapon(char choice)
     {
 
 
-        switch (wSlots[0])
+        switch (choice)
         {
             case 'F':
 
@@ -235,6 +235,7 @@ public class Player_Equipement : MonoBehaviour
                     Skins["AttackF"] = findAnimation("Attack_Swd");
                     weapon currentW = findW.Value;
                     playerAtk.createSlashHBox(currentW.cOffset, currentW.cRadius);
+                    Debug.Log("Circle collider has been created");
                 }
                 else
                 {
@@ -339,10 +340,7 @@ public class Player_Equipement : MonoBehaviour
         {
             if (wSlots[i] == 'F'){
 
-                wSlots[i] = weaponId;
-                inventorySize++;
-                //problema con change skin
-                changeSkins(weaponId);
+             
 
 
                 if (i == 0) {
@@ -354,13 +352,25 @@ public class Player_Equipement : MonoBehaviour
 
                     if (wSlots[0] != 'S')
                     {
+<<<<<<< Updated upstream
                         //changeSkins(weaponId);
+=======
+                        changeSkins(weaponId);
+
+>>>>>>> Stashed changes
                     }
                     guiManager.equipementSlot2(weaponSprite);
                 }
 
+                wSlots[i] = weaponId;
+                inventorySize++;
+                changeSkins(weaponId);
+
+                selectWeapon(weaponId);
 
                 break;
+
+          
 
             }
 
@@ -450,8 +460,11 @@ public class Player_Equipement : MonoBehaviour
                         Weapon_Description WD = collision.GetComponent<Weapon_Description>();
 
                         createWeapon(WD);
+<<<<<<< Updated upstream
 
                         
+=======
+>>>>>>> Stashed changes
                     }
 
                     action = false;

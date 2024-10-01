@@ -236,7 +236,7 @@ public class Pl_GUI_Manager : MonoBehaviour
         currentWeapon.sprite = spr;
 
         Vector2 start = new Vector2(0, 0);
-        Vector2 end = new Vector2(45, 45);
+        Vector2 end = new Vector2(135, 135);
 
 
         while (eqElapsedT < eqDuration)
@@ -277,7 +277,7 @@ public class Pl_GUI_Manager : MonoBehaviour
         currentWeapon.sprite = spr;
 
         Vector2 start = new Vector2(0, 0);
-        Vector2 end = new Vector2(30, 30);
+        Vector2 end = new Vector2(90, 90);
 
 
         while (eqElapsedT2 < eqDuration)
@@ -322,14 +322,14 @@ public class Pl_GUI_Manager : MonoBehaviour
         float percentageDur = 0;
 
         //size
-        Vector2 startImgS1 = new Vector2(45, 45);  Vector2 endImgS1 = new Vector2(0, 0);
-        Vector2 startImgS2 = new Vector2(30, 30);  Vector2 endImgS2 = new Vector2(0, 0);
+        Vector2 startImgS1 = new Vector2(135, 135);  Vector2 endImgS1 = new Vector2(0, 0);
+        Vector2 startImgS2 = new Vector2(90, 90);  Vector2 endImgS2 = new Vector2(0, 0);
 
         //position
-        Vector2 startImgP1 = imgSlot1.rectTransform.anchoredPosition; Vector2 endImgP1 = new Vector2(equipementImg[0].rectTransform.anchoredPosition.x + 22, equipementImg[0].rectTransform.anchoredPosition.y);
+        Vector2 startImgP1 = imgSlot1.rectTransform.anchoredPosition; Vector2 endImgP1 = new Vector2(equipementImg[0].rectTransform.anchoredPosition.x + 66, equipementImg[0].rectTransform.anchoredPosition.y);
 
 
-        Vector2 startImgP2 = imgSlot2.rectTransform.anchoredPosition; Vector2 endImgP2 = new Vector2(equipementImg[1].rectTransform.anchoredPosition.x - 16, equipementImg[1].rectTransform.anchoredPosition.y);
+        Vector2 startImgP2 = imgSlot2.rectTransform.anchoredPosition; Vector2 endImgP2 = new Vector2(equipementImg[1].rectTransform.anchoredPosition.x - 48, equipementImg[1].rectTransform.anchoredPosition.y);
 
 
         while (eqSwitchElapsedT < eqSwitchDuration)
@@ -391,7 +391,7 @@ public class Pl_GUI_Manager : MonoBehaviour
         currentUsableSpr.sprite = spr;
 
         Vector2 start = new Vector2(0, 0);
-        Vector2 end = new Vector2(38, 38);
+        Vector2 end = new Vector2(114, 114);
 
 
         while (usableElapsedT < usableDuration)

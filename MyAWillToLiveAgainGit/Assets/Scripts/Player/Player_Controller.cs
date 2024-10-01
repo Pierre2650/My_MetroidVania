@@ -40,7 +40,7 @@ public class Player_scrpt : MonoBehaviour
     private float countJTime = 0;
    
     public float onAirGScale = 5f;
-    private int nbjumps = 2;
+    private int nbjumps = 1;
 
     [Header("Dash Management")]
     private float countDTime = 0f;
@@ -271,7 +271,7 @@ public class Player_scrpt : MonoBehaviour
             myRb.gravityScale = 1;
 
             countJTime = 0;
-            nbjumps = 2;
+            nbjumps = 1;
 
         }
 

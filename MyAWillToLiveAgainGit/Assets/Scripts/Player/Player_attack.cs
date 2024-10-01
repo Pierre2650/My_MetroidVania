@@ -112,18 +112,6 @@ public class Player_attack : MonoBehaviour
     }
     
 
-    private void fistAtk()
-    {
-
-    }
-
-
-    private void slashAtk()
-    {
-
-
-    }
-
     public void destroyCollider(char toDestroy)
     {
         switch (toDestroy)
