@@ -40,7 +40,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected void addCurrency()
     {
-        currencyPrefab = (GameObject)Resources.Load("Prefabs/Souls_Currency", typeof(GameObject));
+        currencyPrefab = (GameObject)Resources.Load("Prefabs/Souls_Currency_drop", typeof(GameObject));
     }
     protected virtual void waitTime()
     {

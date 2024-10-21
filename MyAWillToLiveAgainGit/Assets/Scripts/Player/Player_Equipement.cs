@@ -368,30 +368,6 @@ public class Player_Equipement : MonoBehaviour
         }
 
 
-        /*
-        switch (inventorySize)
-        {
-            case 0:
-                wSlots[0] = weaponId;
-                inventorySize++;
-                changeSkins(weaponId);
-                
-                guiManager.equipementSlot1( weaponSprite);
-
-                return true;
-            case 1:
-                wSlots[1] = weaponId;
-                inventorySize++;
-
-                if (wSlots[0] != 'S')
-                {
-                    changeSkins(weaponId);
-                }
-
-                guiManager.equipementSlot2(weaponSprite);
-                return true;
-
-        }*/
     }
 
     private void addUsable(char usableID, Sprite usableSprite)

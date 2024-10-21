@@ -80,13 +80,24 @@ public class Player_scrpt : MonoBehaviour
     void Update()
     {
 
+
+
         animationManager();
 
         currentDir = transform.rotation.y;
 
-            //Reload scene
+        if (health <= 0)
+        {
+            health = 0;
+
+            if (!isDead) { 
+                Dies();
+             }
+        }
+
+        //Reload scene
         if (Input.GetKeyDown(KeyCode.P))
-        { SceneManager.LoadScene("SampleScene");}
+        { SceneManager.LoadScene("Level#1");}
 
             //End game
         if (Input.GetKeyDown(KeyCode.Escape))

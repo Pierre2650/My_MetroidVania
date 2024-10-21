@@ -15,13 +15,15 @@ public class Arrow_Projectile : MonoBehaviour
     private float timer2 = 0f;
     private float timer = 0.0f;
 
+ 
 
     // Start is called before the first frame update
     void Start()
     {
         myRb = GetComponent<Rigidbody2D>();
         myPC = GetComponent<PolygonCollider2D>();
-        
+
+
     }
 
     // Update is called once per frame
@@ -70,7 +72,7 @@ public class Arrow_Projectile : MonoBehaviour
 
         timer2 += Time.deltaTime;
 
-        if (timer2 > 10f)
+        if (timer2 > 5f)
         {
 
             Destroy(this.gameObject);

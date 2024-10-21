@@ -25,12 +25,23 @@ public class Currency : MonoBehaviour
     [SerializeField] private float impulseDuration = 1f;
     private bool push;
 
+    //is a drop currency
+    public bool isDrop = true; 
+
     // Start is called before the first frame update
     void Start()
     {
         myRb = GetComponent<Rigidbody2D>();
         myCC = GetComponent<CircleCollider2D>();
        startDir = randSpawnDir();
+
+        if (!isDrop)
+        {
+            myRb.gravityScale = 0;
+            impulseAction = false;
+            myRb.velocity = Vector2.zero;
+            myCC.enabled = true;
+        }
         
     }
 
@@ -53,25 +64,11 @@ public class Currency : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (spawn)
+        if (isDrop)
         {
-            myRb.AddForce(startDir * 6, ForceMode2D.Impulse);
-            spawn = false;
+            onSpawn();
+
         }
-
-
-        if (impulseAction) {
-            impulseCount += Time.deltaTime;
-
-            if (impulseCount > impulseDuration) {
-
-                myRb.gravityScale = 0;
-                impulseAction = false;
-                myRb.velocity = Vector2.zero;
-                myCC.enabled = true;
-            }
-        }
-
 
         if (thePlayer)
         {
@@ -85,7 +82,7 @@ public class Currency : MonoBehaviour
             else
             {
 
-                myRb.velocity = new Vector2(20f * NearDirToPLayer.x, 30f * NearDirToPLayer.y);
+                myRb.velocity = new Vector2(30f * NearDirToPLayer.x, 30f * NearDirToPLayer.y);
             }
 
             breakSpeed();
@@ -98,7 +95,29 @@ public class Currency : MonoBehaviour
     }
 
    
+    private void onSpawn()
+    {
+        if (spawn)
+        {
+            myRb.AddForce(startDir * 6, ForceMode2D.Impulse);
+            spawn = false;
+        }
 
+
+        if (impulseAction)
+        {
+            impulseCount += Time.deltaTime;
+
+            if (impulseCount > impulseDuration)
+            {
+
+                myRb.gravityScale = 0;
+                impulseAction = false;
+                myRb.velocity = Vector2.zero;
+                myCC.enabled = true;
+            }
+        }
+    }
 
 
     private void OnTriggerStay2D(Collider2D collision)

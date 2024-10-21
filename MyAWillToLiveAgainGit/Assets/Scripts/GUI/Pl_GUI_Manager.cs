@@ -103,16 +103,11 @@ public class Pl_GUI_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            dashFB();
-          
-
-        }
+        
 
         if (Input.GetKeyDown(KeyCode.M))
         {
-            StopAllCoroutines();
+            //StopAllCoroutines();
 
 
         }

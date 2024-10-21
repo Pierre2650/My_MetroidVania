@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2264008300361045359}
   - component: {fileID: 4494995862650130675}
   m_Layer: 0
-  m_Name: Souls_Currency
+  m_Name: Souls_Currency_drop
   m_TagString: Currency
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,6 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab1b5838b81aef48ab80b292ca58488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
+  speed: 18
   impulseCount: 0
   impulseDuration: 0.6
+  isDrop: 1
