@@ -623,6 +623,11 @@ public class Player_scrpt : MonoBehaviour
         
     }
 
+    public void setRbVelocity()
+    {
+
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         

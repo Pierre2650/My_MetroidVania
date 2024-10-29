@@ -368,11 +368,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 352693299855446070, guid: 49504079f0cf072448332d0ea62dc114, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.6
+      value: 112.89
       objectReference: {fileID: 0}
     - target: {fileID: 352693299855446070, guid: 49504079f0cf072448332d0ea62dc114, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.4
+      value: -6.95
       objectReference: {fileID: 0}
     - target: {fileID: 352693299855446070, guid: 49504079f0cf072448332d0ea62dc114, type: 3}
       propertyPath: m_LocalPosition.z
@@ -13383,7 +13383,7 @@ Transform:
   m_GameObject: {fileID: 1674075581}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.6, y: -5.4, z: -10}
+  m_LocalPosition: {x: 112.89, y: -6.95, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13721,7 +13721,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -13790,8 +13790,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 161ac1f9702367f4aafb441cf558ba6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitDur: 0
-  speed: 0
+  waitDur: 2
+  speed: 2
   leftLim: {x: 0, y: 0}
   rightLim: {x: 0, y: 0}
 --- !u!4 &1825841962 stripped
@@ -14534,7 +14534,7 @@ Transform:
   m_GameObject: {fileID: 2056768712}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.6, y: -5.4, z: -10}
+  m_LocalPosition: {x: 112.89, y: -6.95, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
