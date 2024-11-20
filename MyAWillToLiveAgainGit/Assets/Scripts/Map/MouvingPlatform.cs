@@ -10,24 +10,25 @@ public class MouvingPlatform : MonoBehaviour
     private float waitTimer = 0f;
     public float waitDur;
 
-    private char dir = 'L';
+    private char dir = 'W';
+    public char nextdir = 'L';
     public float speed;
 
 
-    private float waitTimer2 = 0f;
+    private float cdTimer = 0f;
     private bool oncoldown = false;
 
 
     [SerializeField] private Vector2 leftLim, rightLim;
+    public int limDistance = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         myRb = GetComponent<Rigidbody2D>();
-        leftLim = new Vector2(transform.position.x - 10, transform.position.y);
 
-
-        rightLim = new Vector2(transform.position.x + 10, transform.position.y);
+        leftLim = new Vector2(transform.position.x - limDistance, transform.position.y);
+        rightLim = new Vector2(transform.position.x + limDistance, transform.position.y);
 
     }
 
@@ -44,6 +45,7 @@ public class MouvingPlatform : MonoBehaviour
                 waitTimer = 0f;
                 wait = false;
                 oncoldown = true;
+                dir = nextdir;
 
             }
 
@@ -54,35 +56,17 @@ public class MouvingPlatform : MonoBehaviour
             {
 
 
-                if (Vector2.Distance(transform.position, leftLim) < 0.3f || Vector2.Distance(transform.position, rightLim) < 0.3f)
-                {
-
-                    if (dir == 'L')
-                    {
-
-                        dir = 'R';
-                        myRb.velocity = Vector2.zero;
-                        wait = true;
-                    }
-                    else if (dir == 'R')
-                    {
-
-                        dir = 'L';
-                        myRb.velocity = Vector2.zero;
-                        wait = true;
-
-                    }
-                }
+                reachedLimit();
 
             }
             else
             {
-                waitTimer2 += Time.deltaTime;
+                cdTimer += Time.deltaTime;
 
-                if (waitTimer2 > 1f)
+                if (cdTimer > 0.5f)
                 {
 
-                    waitTimer2 = 0f;
+                    cdTimer = 0f;
                     oncoldown = false;
 
                 }
@@ -98,27 +82,62 @@ public class MouvingPlatform : MonoBehaviour
     }
 
 
+    private void reachedLimit()
+    {
+        
+        if (Vector2.Distance(transform.position, leftLim) < 0.3f || Vector2.Distance(transform.position, rightLim) < 0.3f)
+        {
+
+
+            if (dir == 'L')
+            {
+
+                nextdir = 'R';
+                myRb.velocity = Vector2.zero;
+                wait = true;
+            }
+            else if (dir == 'R')
+            {
+
+                nextdir = 'L';
+                myRb.velocity = Vector2.zero;
+                wait = true;
+
+            }
+
+            dir = 'W';
+        }
+
+    }
+
+
     private void FixedUpdate()
     {
 
         if (!wait) {
 
-            if(dir == 'L')
-            {
-                myRb.velocity = Vector2.left * speed;
-
-            }
-
-            if (dir == 'R')
-            {
-               myRb.velocity = Vector2.right * speed;
-
-            }
+            move();
             
         }
 
 
         
+    }
+
+
+    private void move()
+    {
+        if (dir == 'L')
+        {
+            myRb.velocity = Vector2.left * speed;
+
+        }
+
+        if (dir == 'R')
+        {
+            myRb.velocity = Vector2.right * speed;
+
+        }
     }
 
     private void OnDrawGizmos()
@@ -137,9 +156,18 @@ public class MouvingPlatform : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             GameObject temp = collision.gameObject;
-            //temp.tras
 
-            //temp
+            if (dir == 'L')
+            {
+                temp.transform.position += Vector3.left * speed * Time.deltaTime;
+
+            }
+
+            if(dir == 'R')
+            {
+                temp.transform.position += Vector3.right * speed * Time.deltaTime;
+
+            }
 
         }
     }
