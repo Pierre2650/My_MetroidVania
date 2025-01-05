@@ -15,6 +15,9 @@ public class dummy : MonoBehaviour
 
     private float destroyTimer = 0f;
 
+    private bool isMoving = false;
+    private float timer = 0f;
+
 
 
     // Start is called before the first frame update
@@ -33,6 +36,25 @@ public class dummy : MonoBehaviour
         if (destroy)
         {
             toDestroy();
+        }
+
+        if ((myRb.velocity.x > 0f || myRb.velocity.y > 0f) && !isMoving) {
+            isMoving = true;
+
+        }
+
+
+        if (isMoving)
+        {
+            timer += Time.deltaTime;
+
+            if (timer > 1) {
+                myRb.velocity = Vector2.zero;
+                isMoving = false;
+                timer = 0f;
+            }
+
+
         }
 
     }

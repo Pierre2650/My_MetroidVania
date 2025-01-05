@@ -12,7 +12,8 @@ public class Enemy2_scrpt : Enemy
     public float PatrolSpeed = 0.8f;
 
     //Coldowns
-    private float timer = 0f;
+    private float respawnTimer = 0f;
+    public float toRespawnDuration = 3f;
 
     // cuadratic berzier  for parabolic mouvement
     private float t = 0f;
@@ -178,7 +179,7 @@ public class Enemy2_scrpt : Enemy
 
             case 'A':
                 //Attacking
-                timer = 0;
+                respawnTimer = 0;
                 attack();
 
                 break;
@@ -265,16 +266,16 @@ public class Enemy2_scrpt : Enemy
     private void toResurrect() {
         //Method called when dead, to ressurect the emnemy after 3 seconds
 
-        timer += Time.deltaTime;
+        respawnTimer += Time.deltaTime;
 
-        if(timer > 3f)
+        if(respawnTimer > toRespawnDuration)
         {
 
             myAni.SetTrigger("Appear");
             Health++;
             myBxC.isTrigger = false;
             isDead = false;
-            timer = 0f;
+            respawnTimer = 0f;
         }
     
     }
@@ -315,14 +316,14 @@ public class Enemy2_scrpt : Enemy
         }
 
 
-        timer += Time.deltaTime;
-        if (timer > 1.2f)
+        respawnTimer += Time.deltaTime;
+        if (respawnTimer > 1.2f)
         {
             myRb.velocity = Vector2.zero;
             setControlPoints(nextAction);
             currentAction = nextAction;
             nextAction = 'W';
-            timer = 0.0f;
+            respawnTimer = 0.0f;
 
         }
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
@@ -63,6 +64,9 @@ public class Player_scrpt : MonoBehaviour
     public float currentDir = 0;
 
 
+    public bool testing = true;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -99,9 +103,6 @@ public class Player_scrpt : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         { SceneManager.LoadScene("Level#1");}
 
-            //End game
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {   Application.Quit();}
 
 
         //Horizontal Mouvement
@@ -179,24 +180,6 @@ public class Player_scrpt : MonoBehaviour
             }
 
         }
-
-        //Use item
-        if (Input.GetKeyDown(KeyCode.C) && !isHit){
-
-            //guiManager.useItem();
-
-        }
-
-
-
-
-
-        //print test
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            //Debug.Log();
-        }
-
 
         
 
@@ -280,7 +263,7 @@ public class Player_scrpt : MonoBehaviour
         if (gCheck)
         {
             myRb.gravityScale = 1;
-
+            myRb.velocity = new Vector2(myRb.velocity.x,0);
             countJTime = 0;
             nbjumps = 1;
 
@@ -324,12 +307,11 @@ public class Player_scrpt : MonoBehaviour
         if (H_Mouvement < 0.1 && H_Mouvement > -0.1)
         {
 
-            if (gCheck) {
+         
 
-            //myRb.velocity = new Vector2(0, myRb.velocity.y);
-            myRb.velocity = new Vector2(0, 0);
+            myRb.velocity = new Vector2(0, myRb.velocity.y);
 
-            }
+            
 
         }
 
@@ -438,43 +420,32 @@ public class Player_scrpt : MonoBehaviour
     }
 
 
-
-
     private void goRight()
     {
         transform.rotation = Quaternion.Euler(0f, 0f, 0f);
 
+
+        if (myRb.velocity.x < 0)
+        { //reset Velocity
+            myRb.velocity = Vector2.zero;
+        }
+
         if (/*Grouded*/ gCheck)
         {
-            if (myRb.velocity.x < 0)
-            {
-                myRb.velocity = Vector2.zero;
-            }
 
 
-            if (myRb.velocity.x < 10f)
-            {
-                myRb.AddForce(Vector2.right * speed);
-            }
-            else
-            {
-                Vector2 vec_test = new Vector2(10f, myRb.velocity.y);
-                myRb.velocity = vec_test;
-            }
+           
+            myRb.velocity = new Vector2(speed, 0f);
+               
+            
 
         }
         else{
             //on air
        
             
-            if (myRb.velocity.x < 12f && myRb.velocity.x >= 0)
-            {
-                myRb.AddForce(Vector2.right * (this.airSpeed));
-            }
-            else
-            {
-                myRb.velocity = new Vector2(+12f, myRb.velocity.y);
-            }
+            myRb.velocity = new Vector2(airSpeed, myRb.velocity.y);
+            
 
 
         }
@@ -486,35 +457,25 @@ public class Player_scrpt : MonoBehaviour
     {
         transform.rotation = Quaternion.Euler(0f, 180f, 0f);
 
+        if (myRb.velocity.x > 0 && testing)
+        {
+            //reset Velocity
+            myRb.velocity = Vector2.zero;                                           
+        }
+
         if (/*Grouded */ gCheck) {
 
-            if (myRb.velocity.x > 0)
-            {
-                myRb.velocity = Vector2.zero;
-            }
-
-
-            if (myRb.velocity.x > (-10f))
-            {
-                myRb.AddForce(Vector2.right * (-speed));
-            }
-            else
-            {
-                Vector2 vec_test = new Vector2(-10f, myRb.velocity.y);
-                myRb.velocity = vec_test;
-            }
+            
+            myRb.velocity = new Vector2(-speed,0f);
+           
         }
         else
         {
             //on air
-            if(myRb.velocity.x > -12f && myRb.velocity.x <= 0)
-            {
-                myRb.AddForce(Vector2.right * (-this.airSpeed));
-            }
-            else
-            {
-                myRb.velocity = new Vector2(-12f, myRb.velocity.y);
-            }
+    
+            
+            myRb.velocity = new Vector2(-airSpeed, myRb.velocity.y);
+            
 
         }
 
@@ -623,10 +584,6 @@ public class Player_scrpt : MonoBehaviour
         
     }
 
-    public void setRbVelocity()
-    {
-
-    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

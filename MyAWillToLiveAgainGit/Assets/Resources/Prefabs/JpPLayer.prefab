@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 5744889804744131925}
   - component: {fileID: 6571897692920027492}
   - component: {fileID: 6780854401834740381}
+  - component: {fileID: 3861023263841510498}
   m_Layer: 3
   m_Name: JpPLayer
   m_TagString: Player
@@ -171,7 +172,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 736040166, guid: 0378bbe29fe639443b2067e0982fc6fa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -304,6 +305,7 @@ MonoBehaviour:
   dashTime: 0.4
   isHit: 0
   currentDir: 0
+  testing: 1
 --- !u!114 &6780854401834740381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,3 +327,16 @@ MonoBehaviour:
   guiManager: {fileID: 0}
   playerAtk: {fileID: 1543976300974393483}
   playerCtrl: {fileID: 6571897692920027492}
+--- !u!114 &3861023263841510498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8485986086726536445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 230aec0713e3cb643be51ff1e8b669bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnGameStart: {fileID: 0}

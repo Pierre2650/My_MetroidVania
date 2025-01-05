@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 public class Player_Equipement : MonoBehaviour

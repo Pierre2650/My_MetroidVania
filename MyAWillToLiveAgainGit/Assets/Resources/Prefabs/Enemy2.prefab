@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 386723219, guid: f8e19e723c325f84da62df6f56301f8b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -235,6 +235,7 @@ MonoBehaviour:
   theGroundMask:
     serializedVersion: 2
     m_Bits: 0
+  currencyPrefab: {fileID: 0}
   limitL: {x: 0, y: 0}
   limitR: {x: 0, y: 0}
   currentAction: 87
@@ -242,12 +243,14 @@ MonoBehaviour:
   Health: 1
   NearDirToPLayer: {x: 0, y: 0}
   thePlayer: {fileID: 0}
+  gCheck: 0
   isAttacking: 0
   isDead: 0
   isHit: 0
   waitTimer: 0
   myBxC: {fileID: 0}
   PatrolSpeed: 0.85
+  toRespawnDuration: 1.5
 --- !u!114 &4589637394081057132
 MonoBehaviour:
   m_ObjectHideFlags: 0

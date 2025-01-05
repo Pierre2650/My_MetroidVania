@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 1
   m_Sprite: {fileID: 2006749263, guid: 74875d7f52516d14e8cd61b75f0b65c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -151,5 +151,4 @@ MonoBehaviour:
   - {fileID: 1271408491, guid: 74875d7f52516d14e8cd61b75f0b65c6, type: 3}
   - {fileID: -124803627, guid: 74875d7f52516d14e8cd61b75f0b65c6, type: 3}
   animSpeed: 0.1
-  prefabEnemyArrow: {fileID: 6797828421879760137, guid: 9fd6619ac73c4c54b94301ec5611964e, type: 3}
   arrowFrequency: 0

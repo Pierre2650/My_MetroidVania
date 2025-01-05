@@ -79,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 57ea22dbe621e4e4f8b893a32674ff8d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -225,6 +225,7 @@ MonoBehaviour:
   theGroundMask:
     serializedVersion: 2
     m_Bits: 0
+  currencyPrefab: {fileID: 0}
   limitL: {x: 0, y: 0}
   limitR: {x: 0, y: 0}
   currentAction: 87
