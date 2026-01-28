@@ -41,6 +41,10 @@ public class Enemy3 : Enemy
     private float attackTimer = 0.0f;
     private float staggerDur = 0.0f;
 
+
+    public float speed;
+    public float pursueSpeed;
+
     private void Awake()
     {
         currentAction = 'W';
@@ -364,14 +368,14 @@ void Start()
                 
                 transform.rotation = Quaternion.Euler(0f, 180f, 0f);
              
-                myRb.velocity = new Vector2(-5, 0);
+                myRb.velocity = new Vector2(-speed, 0);
                 getDir();
 
                 break;
 
             case 'R':
                 transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-                myRb.velocity = new Vector2(5, 0);
+                myRb.velocity = new Vector2(speed, 0);
                 getDir();
 
                 break;
@@ -531,7 +535,7 @@ void Start()
         }
         else
         {
-            myRb.velocity = new Vector2(8f * NearDirToPLayer.x, myRb.velocity.y);
+            myRb.velocity = new Vector2(pursueSpeed * NearDirToPLayer.x, myRb.velocity.y);
         }
     }
 

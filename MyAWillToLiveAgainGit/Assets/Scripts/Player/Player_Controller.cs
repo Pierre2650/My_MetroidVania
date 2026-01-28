@@ -100,8 +100,12 @@ public class Player_scrpt : MonoBehaviour
         }
 
         //Reload scene
+      /*  if (Input.GetKeyDown(KeyCode.P))
+        { SceneManager.LoadScene("Level#1");}*/
+
         if (Input.GetKeyDown(KeyCode.P))
-        { SceneManager.LoadScene("Level#1");}
+        { SceneManager.LoadScene("SampleScene"); }
+
 
 
 
